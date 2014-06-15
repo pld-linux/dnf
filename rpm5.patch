@@ -1,0 +1,41 @@
+--- dnf/dnf/base.py~	2014-05-02 11:00:42.000000000 +0300
++++ dnf/dnf/base.py	2014-06-15 20:38:11.739642641 +0300
+@@ -347,8 +347,7 @@
+                         'justdb': rpm.RPMTRANS_FLAG_JUSTDB,
+                         'nocontexts': rpm.RPMTRANS_FLAG_NOCONTEXTS,
+                         'nocrypto' : rpm.RPMTRANS_FLAG_NOFILEDIGEST}
+-    _TS_VSFLAGS_TO_RPM = {'nocrypto' : rpm._RPMVSF_NOSIGNATURES |
+-                          rpm._RPMVSF_NODIGESTS }
++    _TS_VSFLAGS_TO_RPM = {'nocrypto' : rpm.RPMVSF_NODSAHEADER }
+ 
+     @property
+     def ts(self):
+@@ -1455,7 +1454,7 @@
+             return 1
+ 
+         myts = dnf.rpmUtils.transaction.initReadOnlyTransaction(root=self.conf.installroot)
+-        myts.pushVSFlags(~(rpm._RPMVSF_NOSIGNATURES|rpm._RPMVSF_NODIGESTS))
++        myts.pushVSFlags(~rpm.RPMVSF_NODSAHEADER)
+         idx = myts.dbMatch('name', 'gpg-pubkey')
+         keys = len(idx)
+         del idx
+--- dnf/dnf/rpmUtils/transaction.py~	2014-05-02 11:00:42.000000000 +0300
++++ dnf/dnf/rpmUtils/transaction.py	2014-06-15 20:38:31.170535603 +0300
+@@ -118,5 +118,5 @@
+ 
+ def initReadOnlyTransaction(root='/'):
+     read_ts =  TransactionWrapper(root=root)
+-    read_ts.pushVSFlags((rpm._RPMVSF_NOSIGNATURES|rpm._RPMVSF_NODIGESTS))
++    read_ts.pushVSFlags(rpm.RPMVSF_NODSAHEADER)
+     return read_ts
+--- dnf/dnf/yum/config.py~	2014-05-02 11:00:42.000000000 +0300
++++ dnf/dnf/yum/config.py	2014-06-15 20:38:49.048023852 +0300
+@@ -1036,7 +1036,7 @@
+     @return: The release version as a string (eg. '4' for FC4)
+     '''
+     ts = dnf.rpmUtils.transaction.initReadOnlyTransaction(root=installroot)
+-    ts.pushVSFlags(~(rpm._RPMVSF_NOSIGNATURES|rpm._RPMVSF_NODIGESTS))
++    ts.pushVSFlags(~rpm.RPMVSF_NODSAHEADER)
+     try:
+         idx = ts.dbMatch('provides', distroverpkg)
+     except TypeError as e:

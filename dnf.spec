@@ -8,13 +8,14 @@
 Summary:	Package manager forked from Yum, using libsolv as a dependency resolver
 Name:		dnf
 Version:	0.5.1
-Release:	0.2
+Release:	0.5
 Group:		Base
 # For a breakdown of the licensing, see PACKAGE-LICENSING
-License:	GPLv2+ and GPLv2 and GPL
+License:	GPL v2+ and GPL v2 and GPL
 #Source0:	http://akozumpl.fedorapeople.org/%{name}-%{gitrev}.tar.xz
 Source0:	http://pkgs.fedoraproject.org/repo/pkgs/dnf/%{name}-%{gitrev}.tar.xz/fdf85937f979702e1968150e8e150666/dnf-%{gitrev}.tar.xz
 # Source0-md5:	fdf85937f979702e1968150e8e150666
+Patch0:		rpm5.patch
 URL:		https://github.com/akozumpl/dnf
 BuildRequires:	cmake
 BuildRequires:	gettext
@@ -48,6 +49,7 @@ resolver.
 
 %prep
 %setup -q -n %{name}
+%patch0 -p1
 
 # the -D doesn't work
 %{__sed} -i -e '/SYSTEMD_DIR/ s#/usr/lib/systemd/system#%{systemdunitdir}#' CMakeLists.txt
