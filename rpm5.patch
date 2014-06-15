@@ -1,11 +1,15 @@
---- dnf/dnf/base.py~	2014-05-02 11:00:42.000000000 +0300
-+++ dnf/dnf/base.py	2014-06-15 20:38:11.739642641 +0300
-@@ -347,8 +347,7 @@
+--- dnf/dnf/base.py	2014-06-15 20:38:11.739642641 +0300
++++ ./dnf/base.py	2014-06-15 23:42:32.536552554 +0300
+@@ -345,10 +345,9 @@
+                         'nodocs': rpm.RPMTRANS_FLAG_NODOCS,
+                         'test': rpm.RPMTRANS_FLAG_TEST,
                          'justdb': rpm.RPMTRANS_FLAG_JUSTDB,
-                         'nocontexts': rpm.RPMTRANS_FLAG_NOCONTEXTS,
-                         'nocrypto' : rpm.RPMTRANS_FLAG_NOFILEDIGEST}
+-                        'nocontexts': rpm.RPMTRANS_FLAG_NOCONTEXTS,
+-                        'nocrypto' : rpm.RPMTRANS_FLAG_NOFILEDIGEST}
 -    _TS_VSFLAGS_TO_RPM = {'nocrypto' : rpm._RPMVSF_NOSIGNATURES |
 -                          rpm._RPMVSF_NODIGESTS }
++                        'nocontexts': 0,
++                        'nocrypto' : 0}
 +    _TS_VSFLAGS_TO_RPM = {'nocrypto' : rpm.RPMVSF_NODSAHEADER }
  
      @property
