@@ -1,45 +1,45 @@
---- dnf/dnf/base.py	2014-06-15 20:38:11.739642641 +0300
-+++ ./dnf/base.py	2014-06-15 23:42:32.536552554 +0300
-@@ -345,10 +345,9 @@
+--- dnf/dnf/base.py~	2014-12-09 13:36:18.000000000 +0200
++++ dnf/dnf/base.py	2015-01-31 19:34:11.698771194 +0200
+@@ -284,10 +284,9 @@
                          'nodocs': rpm.RPMTRANS_FLAG_NODOCS,
                          'test': rpm.RPMTRANS_FLAG_TEST,
                          'justdb': rpm.RPMTRANS_FLAG_JUSTDB,
 -                        'nocontexts': rpm.RPMTRANS_FLAG_NOCONTEXTS,
 -                        'nocrypto' : rpm.RPMTRANS_FLAG_NOFILEDIGEST}
 -    _TS_VSFLAGS_TO_RPM = {'nocrypto' : rpm._RPMVSF_NOSIGNATURES |
--                          rpm._RPMVSF_NODIGESTS }
+-                          rpm._RPMVSF_NODIGESTS}
 +                        'nocontexts': 0,
 +                        'nocrypto' : 0}
 +    _TS_VSFLAGS_TO_RPM = {'nocrypto' : rpm.RPMVSF_NODSAHEADER }
  
      @property
      def ts(self):
-@@ -1455,7 +1454,7 @@
-             return 1
+@@ -1254,7 +1253,7 @@
  
-         myts = dnf.rpmUtils.transaction.initReadOnlyTransaction(root=self.conf.installroot)
+         installroot = self.conf.installroot
+         myts = dnf.rpm.transaction.initReadOnlyTransaction(root=installroot)
 -        myts.pushVSFlags(~(rpm._RPMVSF_NOSIGNATURES|rpm._RPMVSF_NODIGESTS))
 +        myts.pushVSFlags(~rpm.RPMVSF_NODSAHEADER)
          idx = myts.dbMatch('name', 'gpg-pubkey')
          keys = len(idx)
          del idx
---- dnf/dnf/rpmUtils/transaction.py~	2014-05-02 11:00:42.000000000 +0300
-+++ dnf/dnf/rpmUtils/transaction.py	2014-06-15 20:38:31.170535603 +0300
-@@ -118,5 +118,5 @@
+--- dnf/dnf/rpm/transaction.py~	2014-12-09 13:36:18.000000000 +0200
++++ dnf/dnf/rpm/transaction.py	2015-01-31 19:37:26.945547832 +0200
+@@ -119,5 +119,5 @@
  
  def initReadOnlyTransaction(root='/'):
      read_ts =  TransactionWrapper(root=root)
 -    read_ts.pushVSFlags((rpm._RPMVSF_NOSIGNATURES|rpm._RPMVSF_NODIGESTS))
 +    read_ts.pushVSFlags(rpm.RPMVSF_NODSAHEADER)
      return read_ts
---- dnf/dnf/yum/config.py~	2014-05-02 11:00:42.000000000 +0300
-+++ dnf/dnf/yum/config.py	2014-06-15 20:38:49.048023852 +0300
-@@ -1036,7 +1036,7 @@
-     @return: The release version as a string (eg. '4' for FC4)
-     '''
-     ts = dnf.rpmUtils.transaction.initReadOnlyTransaction(root=installroot)
+--- dnf/dnf/rpm/__init__.py~	2014-12-09 13:36:18.000000000 +0200
++++ dnf/dnf/rpm/__init__.py	2015-01-31 19:36:50.920349099 +0200
+@@ -29,7 +29,7 @@
+     """Calculate the release version for the system. :api"""
+ 
+     ts = transaction.initReadOnlyTransaction(root=installroot)
 -    ts.pushVSFlags(~(rpm._RPMVSF_NOSIGNATURES|rpm._RPMVSF_NODIGESTS))
 +    ts.pushVSFlags(~rpm.RPMVSF_NODSAHEADER)
-     try:
-         idx = ts.dbMatch('provides', distroverpkg)
-     except TypeError as e:
+     for distroverpkg in dnf.const.DISTROVERPKG:
+         try:
+             idx = ts.dbMatch('provides', distroverpkg)
