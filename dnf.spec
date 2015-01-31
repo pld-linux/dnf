@@ -1,6 +1,10 @@
+#
+# Conditional build:
+%bcond_without	tests		# build without tests
+#
 # TODO
 # - bash-completion subpackage
-# - make -DSYSTEMD_DIR actually to work
+# - make -DSYSTEMD_DIR actually to work: https://github.com/rpm-software-management/dnf/pull/213
 %define	gitrev a7e0aa1
 %define	hawkey_version 0.5.2
 %define	librepo_version 1.7.5
@@ -35,6 +39,10 @@ BuildRequires:	rpmbuild(macros) >= 1.647
 BuildRequires:	sed >= 4.0
 BuildRequires:	sphinx-pdg
 BuildRequires:	systemd-devel
+%if %{with tests}
+BuildRequires:	hawkey-devel >= %{hawkey_version}
+BuildRequires:	python-pyliblzma
+%endif
 Requires(post,preun,postun):	systemd-units >= 38
 Requires:	deltarpm
 Requires:	python-hawkey >= %{hawkey_version}
