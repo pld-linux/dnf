@@ -25,6 +25,7 @@ Patch0:		rpm5.patch
 URL:		https://github.com/rpm-software-management/dnf
 BuildRequires:	cmake
 BuildRequires:	gettext
+BuildRequires:	gettext-tools
 BuildRequires:	python
 BuildRequires:	python-Sphinx
 #BuildRequires:	python-bugzilla
@@ -35,6 +36,7 @@ BuildRequires:	python-librepo >= %{librepo_version}
 BuildRequires:	python-nose
 BuildRequires:	python-pygpgme
 BuildRequires:	python-rpm >= %{rpm_version}
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.647
 BuildRequires:	sed >= 4.0
 BuildRequires:	sphinx-pdg
@@ -81,6 +83,7 @@ execution.
 
 %build
 %cmake \
+	-DCMAKE_CXX_COMPILER_WORKS=1 -DCMAKE_CXX_COMPILER="%{__cc}" \
 	-DPYTHON_DESIRED=2 \
 	-DSYSTEMD_DIR=%{systemdunitdir} \
 	.
