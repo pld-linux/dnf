@@ -1,17 +1,18 @@
+# TODO
+# - bash-completion subpackage
+# - make -DSYSTEMD_DIR actually to work: https://github.com/rpm-software-management/dnf/pull/213
 #
 # Conditional build:
 %bcond_without	tests		# build without tests
 #
-# TODO
-# - bash-completion subpackage
-# - make -DSYSTEMD_DIR actually to work: https://github.com/rpm-software-management/dnf/pull/213
-%define	gitrev a7e0aa1
-%define	hawkey_version 0.5.2
-%define	librepo_version 1.7.5
-%define	libcomps_version 0.1.6
-%define	rpm_version 5.4.0
+%define	gitrev	a7e0aa1
+%define	hawkey_ver	0.5.2
+%define	librepo_ver	1.7.5
+%define	libcomps_ver	0.1.6
+%define	rpm_ver		5.4.0
 
 Summary:	Package manager forked from Yum, using libsolv as a dependency resolver
+Summary(pl.UTF-8):	Zarządca pakietów wywodzący się z Yuma, wykorzystujący libsolv do rozwiązywania zależności
 Name:		dnf
 Version:	0.6.3
 Release:	0.5
@@ -29,30 +30,30 @@ BuildRequires:	gettext-tools
 BuildRequires:	python
 BuildRequires:	python-Sphinx
 #BuildRequires:	python-bugzilla
-BuildRequires:	python-hawkey >= %{hawkey_version}
+BuildRequires:	python-hawkey >= %{hawkey_ver}
 BuildRequires:	python-iniparse
-BuildRequires:	python-libcomps >= %{libcomps_version}
-BuildRequires:	python-librepo >= %{librepo_version}
+BuildRequires:	python-libcomps >= %{libcomps_ver}
+BuildRequires:	python-librepo >= %{librepo_ver}
 BuildRequires:	python-nose
 BuildRequires:	python-pygpgme
-BuildRequires:	python-rpm >= %{rpm_version}
+BuildRequires:	python-rpm >= %{rpm_ver}
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.647
 BuildRequires:	sed >= 4.0
 BuildRequires:	sphinx-pdg
 BuildRequires:	systemd-devel
 %if %{with tests}
-BuildRequires:	hawkey-devel >= %{hawkey_version}
+BuildRequires:	python-hawkey-test >= %{hawkey_ver}
 BuildRequires:	python-pyliblzma
 %endif
 Requires(post,preun,postun):	systemd-units >= 38
 Requires:	deltarpm
-Requires:	python-hawkey >= %{hawkey_version}
+Requires:	python-hawkey >= %{hawkey_ver}
 Requires:	python-iniparse
-Requires:	python-libcomps >= %{libcomps_version}
-Requires:	python-librepo >= %{librepo_version}
+Requires:	python-libcomps >= %{libcomps_ver}
+Requires:	python-librepo >= %{librepo_ver}
 Requires:	python-pygpgme
-Requires:	python-rpm >= %{rpm_version}
+Requires:	python-rpm >= %{rpm_ver}
 #Requires:	rpm-plugin-systemd-inhibit
 Requires:	systemd-units >= 0.38
 BuildArch:	noarch
@@ -62,17 +63,26 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Package manager forked from Yum, using libsolv as a dependency
 resolver.
 
+%description -l pl.UTF-8
+Zarządca pakietów wywodzący się z Yuma, wykorzystujący libsolv do
+rozwiązywania zależności.
+
 %package automatic
 Summary:	Alternative CLI to "dnf upgrade" suitable for automatic, regular execution
+Summary(pl.UTF-8):	Alternatywny interfejs do "dnf upgrade" nadający się do automatycznego wywoływania
 Group:		Base
-Requires:	%{name} = %{version}-%{release}
 Requires(post):	systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
+Requires:	%{name} = %{version}-%{release}
 
 %description automatic
 Alternative CLI to "dnf upgrade" suitable for automatic, regular
 execution.
+
+%description automatic -l pl.UTF-8
+Alternatywny interfejs linii poleceń do "dnf upgrade", nadający się do
+automatycznego, regularnego wywoływania.
 
 %prep
 %setup -q -n %{name}
@@ -92,7 +102,7 @@ execution.
 %{__make} doc-man
 
 %if %{with tests}
-%{__make} ARGS="-V" test
+%{__make} test ARGS="-V"
 %endif
 
 %install
