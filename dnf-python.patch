@@ -1,0 +1,11 @@
+--- dnf-2.7.5-modularity-6/CMakeLists.txt.orig	2018-05-27 21:45:19.513286281 +0200
++++ dnf-2.7.5-modularity-6/CMakeLists.txt	2018-05-28 19:40:47.585718398 +0200
+@@ -18,7 +18,7 @@
+ 	FIND_PACKAGE(PythonInterp 3.0 REQUIRED)
+ endif()
+ 
+-EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib())" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
++EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(False, prefix='${CMAKE_INSTALL_PREFIX}'))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+ EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "import sys; sys.stdout.write('%s.%s' % (sys.version_info.major, sys.version_info.minor))" OUTPUT_VARIABLE PYTHON_MAJOR_DOT_MINOR_VERSION)
+ MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
+ 
