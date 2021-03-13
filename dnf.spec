@@ -30,8 +30,7 @@ BuildRequires:	python3-libdnf >= %{hawkey_ver}
 BuildRequires:	python3-modules
 BuildRequires:	python3-nose
 BuildRequires:	python3-rpm >= %{rpm_ver}
-# XXX: missing in PLD
-# BuildRequires:  libmodulemd >= %{libmodulemd_ver}
+BuildRequires:  libmodulemd >= %{libmodulemd_ver}
 BuildRequires:	rpmbuild(macros) >= 1.647
 BuildRequires:	rpm-pythonprov
 BuildRequires:	sed >= 4.0
@@ -44,8 +43,7 @@ Requires:	python3-libcomps >= %{libcomps_ver}
 Requires:	python3-libdnf >= %{hawkey_ver}
 Requires:	python3-rpm
 Requires:	systemd-units >= 0.38
-# XXX: missing in PLD
-# Requires:	libmodulemd >= %{libmodulemd_ver}
+Requires:	libmodulemd >= %{libmodulemd_ver}
 Recommends:	deltarpm
 Recommends:	python3-dbus
 Recommends:	python3-unbound
