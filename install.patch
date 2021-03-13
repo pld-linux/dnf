@@ -1,0 +1,25 @@
+--- dnf-4.6.1/CMakeLists.txt~	2021-03-02 15:05:07.000000000 +0100
++++ dnf-4.6.1/CMakeLists.txt	2021-03-13 19:31:43.720803912 +0100
+@@ -3,8 +3,12 @@
+ 
+ INCLUDE (${CMAKE_SOURCE_DIR}/VERSION.cmake)
+ 
++IF (NOT SYSCONFDIR)
+ SET( SYSCONFDIR /etc)
++ENDIF()
++IF (NOT SYSTEMD_DIR)
+ SET( SYSTEMD_DIR /usr/lib/systemd/system)
++ENDIF()
+ 
+ IF (NOT PYTHON_DESIRED)
+     FIND_PACKAGE (PythonInterp REQUIRED)
+@@ -19,7 +19,9 @@
+     MESSAGE (FATAL_ERROR "Invalid PYTHON_DESIRED value: " ${PYTHON_DESIRED})
+ ENDIF()
+ 
++IF (NOT PYTHON_INSTALL_DIR)
+ EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib())" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
++ENDIF()
+ MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
+ 
+ ADD_SUBDIRECTORY (dnf)

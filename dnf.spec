@@ -1,75 +1,71 @@
-# TODO
-# - make -DSYSTEMD_DIR actually to work: https://github.com/rpm-software-management/dnf/pull/213
 #
 # Conditional build:
 %bcond_without	tests		# build without tests
-%bcond_without	python2		# CPython 2.x version
-%bcond_with	python3		# CPython 3.x version (dependencies not met currently)
 #
-%define	gitrev	a7e0aa1
-%define	hawkey_ver	0.5.2
-%define	librepo_ver	1.7.5
-%define	libcomps_ver	0.1.6
-%define	rpm_ver		5.4.0
+%define	hawkey_ver	0.59.0
+%define	libcomps_ver	0.1.8
+%define	libmodulemd_ver	2.9.3
+%define	rpm_ver		4.14.0
 
-Summary:	Package manager forked from Yum, using libsolv as a dependency resolver
-Summary(pl.UTF-8):	Zarządca pakietów wywodzący się z Yuma, wykorzystujący libsolv do rozwiązywania zależności
+Summary:	Package manager
+Summary(pl.UTF-8):	Zarządca pakietów
 Name:		dnf
-Version:	0.6.3
-Release:	0.5
+Version:	4.6.1
+Release:	0.1
 Group:		Base
 # GPL v2+ with GPL v2 and GPL parts; for a breakdown of the licensing, see PACKAGE-LICENSING
 License:	GPL v2 (parts on GPL v2+ or GPL)
-#Source0:	http://rpm-software-management.fedorapeople.org/%{name}-%{gitrev}.tar.xz
-Source0:	http://pkgs.fedoraproject.org/repo/pkgs/dnf/%{name}-%{gitrev}.tar.xz/82ff495e445ddc56e70dc91750a421ac/dnf-%{gitrev}.tar.xz
-# Source0-md5:	82ff495e445ddc56e70dc91750a421ac
-Patch0:		rpm5.patch
+Source0:	https://github.com/rpm-software-management/dnf/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	21880d44905d6aa67ab6bee1e86380b3
+Patch0:		install.patch
 URL:		https://github.com/rpm-software-management/dnf
+BuildRequires:	bash-completion
 BuildRequires:	cmake >= 2.4
 BuildRequires:	gettext-tools
-BuildRequires:	rpm-pythonprov
+BuildRequires:	python3
+BuildRequires:	python3-gpg
+BuildRequires:	python3-hawkey >= %{hawkey_ver}
+BuildRequires:	python3-libcomps >= %{libcomps_ver}
+BuildRequires:	python3-libdnf >= %{hawkey_ver}
+BuildRequires:	python3-modules
+BuildRequires:	python3-nose
+BuildRequires:	python3-rpm >= %{rpm_ver}
+# XXX: missing in PLD
+# BuildRequires:  libmodulemd >= %{libmodulemd_ver}
 BuildRequires:	rpmbuild(macros) >= 1.647
+BuildRequires:	rpm-pythonprov
 BuildRequires:	sed >= 4.0
 BuildRequires:	sphinx-pdg
 BuildRequires:	systemd-devel
-%if %{with python2}
-BuildRequires:	python >= 2
-%if %{with tests}
-#BuildRequires:	python-bugzilla
-BuildRequires:	python-hawkey >= %{hawkey_ver}
-BuildRequires:	python-hawkey-test >= %{hawkey_ver}
-BuildRequires:	python-iniparse
-BuildRequires:	python-libcomps >= %{libcomps_ver}
-BuildRequires:	python-librepo >= %{librepo_ver}
-BuildRequires:	python-pygpgme
-BuildRequires:	python-rpm >= %{rpm_ver}
-BuildRequires:	python-nose
-BuildRequires:	python-pyliblzma
-%endif
-%endif
-%if %{with python3}
-BuildRequires:	python3 >= 1:3.3
-%endif
 Requires(post,preun,postun):	systemd-units >= 38
-Requires:	deltarpm
-Requires:	python-hawkey >= %{hawkey_ver}
-Requires:	python-iniparse
-Requires:	python-libcomps >= %{libcomps_ver}
-Requires:	python-librepo >= %{librepo_ver}
-Requires:	python-pygpgme
-Requires:	python-rpm >= %{rpm_ver}
-#Requires:	rpm-plugin-systemd-inhibit
+Requires:	python3-gpg
+Requires:	python3-hawkey >= %{hawkey_ver}
+Requires:	python3-libcomps >= %{libcomps_ver}
+Requires:	python3-libdnf >= %{hawkey_ver}
+Requires:	python3-rpm
 Requires:	systemd-units >= 0.38
+# XXX: missing in PLD
+# Requires:	libmodulemd >= %{libmodulemd_ver}
+Recommends:	deltarpm
+Recommends:	python3-dbus
+Recommends:	python3-unbound
+Recommends:	rpm-plugin-systemd-inhibit
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Package manager forked from Yum, using libsolv as a dependency
-resolver.
+Utility that allows users to manage packages on their systems. It
+supports RPMs, modules and comps groups & environments.
 
 %description -l pl.UTF-8
-Zarządca pakietów wywodzący się z Yuma, wykorzystujący libsolv do
-rozwiązywania zależności.
+Marzędzie umożliwiające użytkownikom zarządzanie pakietami w systemie.
+
+%package common
+Summary:	Common data and configuration files for DNF
+Requires:	libreport-filesystem
+
+%description common
+Common data and configuration files for DNF.
 
 %package automatic
 Summary:	Alternative CLI to "dnf upgrade" suitable for automatic, regular execution
@@ -101,97 +97,60 @@ Bash completion for dnf command.
 %description -n bash-completion-dnf -l pl.UTF-8
 Bashowe uzupełnianie parametrów dla polecenia dnf.
 
-%package -n python3-dnf
-Summary:	Python 3 version of dnf package manager
-Summary(pl.UTF-8):	Wersja zarządcy pakietów dnf dla Pythona 3
-Group:		Libraries/Python
-# for common files (make -common?)
+%package -n yum
+Summary:	Package manager
+Summary(pl.UTF-8):	Zarządca pakietów
 Requires:	%{name} = %{version}-%{release}
-Requires:	deltarpm
-Requires:	python3-hawkey >= %{hawkey_ver}
-# XXX: missing in PLD
-#Requires:	python3-iniparse
-Requires:	python3-libcomps >= %{libcomps_ver}
-# XXX: missing in PLD
-#Requires:	python3-librepo >= %{librepo_ver}
-Requires:	python3-pygpgme
-# XXX: missing in PLD (is it possible with rpm5?)
-#Requires:	python3-rpm >= %{rpm_ver}
+Recommends:	sqlite3
+Conflicts:	yum < 3.4.3-505
 
-%description -n python3-dnf
-Python 3 version of dnf package manager.
+%description -n yum
+Utility that allows users to manage packages on their systems. It
+supports RPMs, modules and comps groups & environments.
 
-%description -n python3-dnf -l pl.UTF-8
-Wersja zarządcy pakietów dnf dla Pythona 3.
+%description -n yum -l pl.UTF-8
+Marzędzie umożliwiające użytkownikom zarządzanie pakietami w systemie.
 
 %prep
-%setup -q -n %{name}
+%setup -q
 %patch0 -p1
 
-# the -D doesn't work
-%{__sed} -i -e '/SYSTEMD_DIR/ s#/usr/lib/systemd/system#%{systemdunitdir}#' CMakeLists.txt
-
 %build
-%if %{with python2}
-install -d build-py2
-cd build-py2
+install -d build
+cd build
 %cmake .. \
-	-DCMAKE_CXX_COMPILER="%{__cc}" \
-	-DCMAKE_CXX_COMPILER_WORKS=1 \
-	-DPYTHON_DESIRED=2 \
+	-DPYTHON_DESIRED:FILEPATH=%{__python3} \
+	-DPYTHON_INSTALL_DIR:PATH=%{py3_sitescriptdir} \
+	-DDNF_VERSION=%{version} \
 	-DSYSTEMD_DIR=%{systemdunitdir}
 
 %{__make}
 %{__make} doc-man
-
-%if %{with tests}
-%{__make} test ARGS="-V"
-%endif
-
-cd ..
-%endif
-
-%if %{with python3}
-install -d build-py3
-cd build-py3
-%cmake .. \
-	-DCMAKE_CXX_COMPILER="%{__cc}" \
-	-DCMAKE_CXX_COMPILER_WORKS=1 \
-	-DPYTHON_DESIRED=3 \
-	-DPYTHON_EXECUTABLE=%{__python3} \
-	-DSYSTEMD_DIR=%{systemdunitdir}
-
-%{__make}
-%{__make} doc-man
-cd ..
-%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/{vars,aliases.d,plugins,modules.d,modules.defaults.d},yum}
+install -d $RPM_BUILD_ROOT%{_localstatedir}/log/
+install -d $RPM_BUILD_ROOT%{_var}/cache/dnf/
 
-%if %{with python2}
-%{__make} -C build-py2 install \
+%{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-%py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}
-%py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}
-%py_postclean
+touch $RPM_BUILD_ROOT%{_localstatedir}/log/%{name}.log
+
+%{__mv} $RPM_BUILD_ROOT%{_bindir}/dnf-3 $RPM_BUILD_ROOT%{_bindir}/dnf
+%{__mv} $RPM_BUILD_ROOT%{_bindir}/dnf-automatic-3 $RPM_BUILD_ROOT%{_bindir}/dnf-automatic
+
+%{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/{%{name}-strict.conf,aliases.d/zypper.conf}
+
+# YUM compat layer
+ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/%{name}.conf,yum.conf}
+ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/plugins,yum/pluginconf.d}
+ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/protected.d,yum/protected.d}
+ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/vars,yum/vars}
+ln -s dnf-3 $RPM_BUILD_ROOT%{_bindir}/yum
 
 %find_lang %{name}
-
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/%{name}/plugins,%{py_sitescriptdir}/dnf-plugins,%{_localstatedir}/log}
-touch $RPM_BUILD_ROOT%{_localstatedir}/log/%{name}{,-rpm,-plugin}.log
-%endif
-
-%if %{with python3}
-%{__make} -C build-py3 install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-%py3_ocomp $RPM_BUILD_ROOT%{py3_sitescriptdir}
-%py3_comp $RPM_BUILD_ROOT%{py3_sitescriptdir}
-%else
-%{__rm} $RPM_BUILD_ROOT%{_bindir}/dnf-3
-%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -206,15 +165,14 @@ rm -rf $RPM_BUILD_ROOT
 %systemd_reload
 
 %post automatic
-%systemd_post dnf-automatic.timer
+%systemd_post dnf-automatic.timer dnf-automatic-download.timer dnf-automatic-install.timer dnf-automatic-notifyonly.timer
 
 %preun automatic
-%systemd_preun dnf-automatic.timer
+%systemd_preun dnf-automatic.timer dnf-automatic-download.timer dnf-automatic-install.timer dnf-automatic-notifyonly.timer
 
 %postun automatic
 %systemd_reload
 
-%if %{with python2}
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS PACKAGE-LICENSING README.rst
@@ -226,34 +184,47 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/protected.d/dnf.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/libreport/events.d/collect_dnf.conf
 %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/%{name}
+%{_mandir}/man5/dnf.conf.5*
+%{_mandir}/man5/dnf-transaction-json.5*
+%{_mandir}/man7/dnf.modularity.7*
 %{_mandir}/man8/dnf.8*
-%{_mandir}/man8/dnf.conf.8*
+%{_mandir}/man8/yum2dnf.8*
 %{systemdunitdir}/dnf-makecache.service
 %{systemdunitdir}/dnf-makecache.timer
-%{py_sitescriptdir}/dnf
-%exclude %{py_sitescriptdir}/dnf/automatic
+%{systemdtmpfilesdir}/dnf.conf
+%{py3_sitescriptdir}/dnf
+%exclude %{py3_sitescriptdir}/dnf/automatic
 
 %ghost %{_localstatedir}/log/%{name}.log
-%ghost %{_localstatedir}/log/%{name}-rpm.log
-%ghost %{_localstatedir}/log/%{name}-plugin.log
 
 %files automatic
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/dnf-automatic
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/automatic.conf
-%{_mandir}/man8/dnf.automatic.8*
+%{_mandir}/man8/dnf-automatic.8*
+%{systemdunitdir}/dnf-automatic-download.service
+%{systemdunitdir}/dnf-automatic-download.timer
+%{systemdunitdir}/dnf-automatic-install.service
+%{systemdunitdir}/dnf-automatic-install.timer
+%{systemdunitdir}/dnf-automatic-notifyonly.service
+%{systemdunitdir}/dnf-automatic-notifyonly.timer
 %{systemdunitdir}/dnf-automatic.service
 %{systemdunitdir}/dnf-automatic.timer
-%{py_sitescriptdir}/dnf/automatic
-%endif
+%{py3_sitescriptdir}/dnf/automatic
 
 %files -n bash-completion-dnf
 %defattr(644,root,root,755)
-/etc/bash_completion.d/dnf-completion.bash
+/etc/bash_completion.d/dnf
 
-%if %{with python3}
-%files -n python3-dnf
+%files -n yum
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/dnf-3
-%{py3_sitescriptdir}/dnf
-%endif
+%attr(755,root,root) %{_bindir}/yum
+%{_sysconfdir}/yum.conf
+%{_sysconfdir}/yum/pluginconf.d
+%{_sysconfdir}/yum/protected.d
+%{_sysconfdir}/yum/vars
+%{_mandir}/man8/yum.8*
+%{_mandir}/man5/yum.conf.5.*
+%{_mandir}/man8/yum-shell.8*
+%{_mandir}/man1/yum-aliases.1*
+%config(noreplace) %{_sysconfdir}/%{name}/protected.d/yum.conf
