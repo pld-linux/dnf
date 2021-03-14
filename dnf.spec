@@ -127,9 +127,9 @@ cd build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/{vars,aliases.d,plugins,modules.d,modules.defaults.d},yum}
-install -d $RPM_BUILD_ROOT%{_localstatedir}/log/
-install -d $RPM_BUILD_ROOT%{_var}/cache/dnf/
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/{vars,aliases.d,plugins,modules.d,modules.defaults.d},yum} \
+	-d $RPM_BUILD_ROOT{%{_localstatedir}/log/,%{_var}/cache/dnf/} \
+	-d $RPM_BUILD_ROOT%{py3_sitescriptdir}/dnf-plugins/__pycache__
 
 %{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -147,6 +147,9 @@ ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/plugins,yum/pluginconf.d}
 ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/protected.d,yum/protected.d}
 ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/vars,yum/vars}
 ln -s dnf-3 $RPM_BUILD_ROOT%{_bindir}/yum
+
+%py3_comp $RPM_BUILD_ROOT%{py3_sitescriptdir}/dnf
+%py3_ocomp $RPM_BUILD_ROOT%{py3_sitescriptdir}/dnf
 
 %find_lang %{name}
 
@@ -191,6 +194,7 @@ rm -rf $RPM_BUILD_ROOT
 %{systemdunitdir}/dnf-makecache.timer
 %{systemdtmpfilesdir}/dnf.conf
 %{py3_sitescriptdir}/dnf
+%{py3_sitescriptdir}/dnf-plugins
 %exclude %{py3_sitescriptdir}/dnf/automatic
 
 %ghost %{_localstatedir}/log/%{name}.log
