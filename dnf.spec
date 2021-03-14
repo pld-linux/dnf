@@ -128,7 +128,7 @@ cd build
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/{vars,aliases.d,plugins,modules.d,modules.defaults.d},yum} \
-	-d $RPM_BUILD_ROOT{%{_localstatedir}/log/,%{_var}/cache/dnf/} \
+	-d $RPM_BUILD_ROOT{%{_localstatedir}/log/,%{_var}/cache/dnf} \
 	-d $RPM_BUILD_ROOT%{py3_sitescriptdir}/dnf-plugins/__pycache__
 
 %{__make} -C build install \
@@ -196,7 +196,7 @@ rm -rf $RPM_BUILD_ROOT
 %{py3_sitescriptdir}/dnf
 %{py3_sitescriptdir}/dnf-plugins
 %exclude %{py3_sitescriptdir}/dnf/automatic
-
+%dir %{_var}/cache/dnf
 %ghost %{_localstatedir}/log/%{name}.log
 
 %files automatic
