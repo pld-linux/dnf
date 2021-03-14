@@ -11,7 +11,7 @@ Summary:	Package manager
 Summary(pl.UTF-8):	Zarządca pakietów
 Name:		dnf
 Version:	4.6.1
-Release:	1
+Release:	2
 Group:		Base
 # GPL v2+ with GPL v2 and GPL parts; for a breakdown of the licensing, see PACKAGE-LICENSING
 License:	GPL v2 (parts on GPL v2+ or GPL)
@@ -19,7 +19,7 @@ Source0:	https://github.com/rpm-software-management/dnf/archive/%{version}/%{nam
 # Source0-md5:	21880d44905d6aa67ab6bee1e86380b3
 Patch0:		install.patch
 URL:		https://github.com/rpm-software-management/dnf
-BuildRequires:	bash-completion
+BuildRequires:	bash-completion-devel
 BuildRequires:	cmake >= 2.4
 BuildRequires:	gettext-tools
 BuildRequires:	python3
@@ -212,7 +212,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n bash-completion-dnf
 %defattr(644,root,root,755)
-/etc/bash_completion.d/dnf
+%{bash_compdir}/dnf
 
 %files -n yum
 %defattr(644,root,root,755)
