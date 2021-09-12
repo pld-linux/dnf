@@ -22,6 +22,7 @@ URL:		https://github.com/rpm-software-management/dnf
 BuildRequires:	bash-completion-devel
 BuildRequires:	cmake >= 2.4
 BuildRequires:	gettext-tools
+BuildRequires:	libmodulemd >= %{libmodulemd_ver}
 BuildRequires:	python3
 BuildRequires:	python3-gpg
 BuildRequires:	python3-hawkey >= %{hawkey_ver}
@@ -30,20 +31,19 @@ BuildRequires:	python3-libdnf >= %{hawkey_ver}
 BuildRequires:	python3-modules
 BuildRequires:	python3-nose
 BuildRequires:	python3-rpm >= %{rpm_ver}
-BuildRequires:  libmodulemd >= %{libmodulemd_ver}
 BuildRequires:	rpmbuild(macros) >= 1.647
 BuildRequires:	rpm-pythonprov
 BuildRequires:	sed >= 4.0
 BuildRequires:	sphinx-pdg
 BuildRequires:	systemd-devel
 Requires(post,preun,postun):	systemd-units >= 38
+Requires:	libmodulemd >= %{libmodulemd_ver}
 Requires:	python3-gpg
 Requires:	python3-hawkey >= %{hawkey_ver}
 Requires:	python3-libcomps >= %{libcomps_ver}
 Requires:	python3-libdnf >= %{hawkey_ver}
 Requires:	python3-rpm
 Requires:	systemd-units >= 0.38
-Requires:	libmodulemd >= %{libmodulemd_ver}
 Recommends:	deltarpm
 Recommends:	python3-dbus
 Recommends:	python3-unbound
@@ -61,6 +61,7 @@ Marzędzie umożliwiające użytkownikom zarządzanie pakietami w systemie.
 %package common
 Summary:	Common data and configuration files for DNF
 Summary(pl.UTF-8):	Wspólne dane i pliki konfiguracyjne dla DNF-a
+Group:		Base
 Requires:	libreport-filesystem
 
 %description common
@@ -102,6 +103,7 @@ Bashowe uzupełnianie parametrów dla polecenia dnf.
 %package -n yum
 Summary:	Yum compatibility layer for DNF
 Summary(pl.UTF-8):	Warstwa zgodności z YUM-em dla DNF-a
+Group:		Base
 Requires:	%{name} = %{version}-%{release}
 Recommends:	sqlite3
 Conflicts:	yum < 3.4.3-505
