@@ -100,18 +100,17 @@ Bash completion for dnf command.
 Bashowe uzupełnianie parametrów dla polecenia dnf.
 
 %package -n yum
-Summary:	Package manager
-Summary(pl.UTF-8):	Zarządca pakietów
+Summary:	Yum compatibility layer for DNF
+Summary(pl.UTF-8):	Warstwa zgodności z YUM-em dla DNF-a
 Requires:	%{name} = %{version}-%{release}
 Recommends:	sqlite3
 Conflicts:	yum < 3.4.3-505
 
 %description -n yum
-Utility that allows users to manage packages on their systems. It
-supports RPMs, modules and comps groups & environments.
+Yum compatibility layer for DNF.
 
 %description -n yum -l pl.UTF-8
-Marzędzie umożliwiające użytkownikom zarządzanie pakietami w systemie.
+Warstwa zgodności z YUM-em dla DNF-a.
 
 %prep
 %setup -q
@@ -150,7 +149,7 @@ ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/%{name}.conf,yum.conf}
 ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/plugins,yum/pluginconf.d}
 ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/protected.d,yum/protected.d}
 ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/vars,yum/vars}
-ln -s dnf-3 $RPM_BUILD_ROOT%{_bindir}/yum
+ln -s dnf $RPM_BUILD_ROOT%{_bindir}/yum
 
 %py3_comp $RPM_BUILD_ROOT%{py3_sitescriptdir}/dnf
 %py3_ocomp $RPM_BUILD_ROOT%{py3_sitescriptdir}/dnf
