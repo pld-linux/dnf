@@ -60,10 +60,14 @@ Marzędzie umożliwiające użytkownikom zarządzanie pakietami w systemie.
 
 %package common
 Summary:	Common data and configuration files for DNF
+Summary(pl.UTF-8):	Wspólne dane i pliki konfiguracyjne dla DNF-a
 Requires:	libreport-filesystem
 
 %description common
 Common data and configuration files for DNF.
+
+%description common -l pl.UTF-8
+Wspólne dane i pliki konfiguracyjne dla DNF-a.
 
 %package automatic
 Summary:	Alternative CLI to "dnf upgrade" suitable for automatic, regular execution
