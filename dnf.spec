@@ -229,8 +229,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/yum/pluginconf.d
 %{_sysconfdir}/yum/protected.d
 %{_sysconfdir}/yum/vars
-%{_mandir}/man8/yum.8*
-%{_mandir}/man5/yum.conf.5.*
-%{_mandir}/man8/yum-shell.8*
 %{_mandir}/man1/yum-aliases.1*
+%{_mandir}/man5/yum.conf.5.*
+%{_mandir}/man8/yum.8*
+%{_mandir}/man8/yum-shell.8*
 %config(noreplace) %{_sysconfdir}/%{name}/protected.d/yum.conf
