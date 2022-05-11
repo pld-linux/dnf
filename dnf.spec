@@ -2,16 +2,18 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 #
-%define	hawkey_ver	0.59.0
-%define	libcomps_ver	0.1.8
-%define	libmodulemd_ver	2.9.3
-%define	rpm_ver		4.14.0
+%define		hawkey_ver		0.59.0
+%define		libcomps_ver		0.1.8
+%define		libmodulemd_ver		2.9.3
+%define		rpm_ver			4.14.0
+
+%define		_enable_debug_packages	0
 
 Summary:	Package manager
 Summary(pl.UTF-8):	Zarządca pakietów
 Name:		dnf
 Version:	4.12.0
-Release:	0.1
+Release:	0.2
 Group:		Base
 # GPL v2+ with GPL v2 and GPL parts; for a breakdown of the licensing, see PACKAGE-LICENSING
 License:	GPL v2 (parts on GPL v2+ or GPL)
@@ -53,7 +55,6 @@ Recommends:	deltarpm
 Recommends:	python3-dbus
 Recommends:	python3-unbound
 Recommends:	rpm-plugin-systemd-inhibit
-BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -63,18 +64,6 @@ supports RPMs, modules and comps groups & environments.
 %description -l pl.UTF-8
 Marzędzie umożliwiające użytkownikom zarządzanie pakietami w systemie.
 
-%package common
-Summary:	Common data and configuration files for DNF
-Summary(pl.UTF-8):	Wspólne dane i pliki konfiguracyjne dla DNF-a
-Group:		Base
-Requires:	libreport-filesystem
-
-%description common
-Common data and configuration files for DNF.
-
-%description common -l pl.UTF-8
-Wspólne dane i pliki konfiguracyjne dla DNF-a.
-
 %package automatic
 Summary:	Alternative CLI to "dnf upgrade" suitable for automatic, regular execution
 Summary(pl.UTF-8):	Alternatywny interfejs do "dnf upgrade" nadający się do automatycznego wywoływania
@@ -83,6 +72,7 @@ Requires(post):	systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
 Requires:	%{name} = %{version}-%{release}
+BuildArch:	noarch
 
 %description automatic
 Alternative CLI to "dnf upgrade" suitable for automatic, regular
@@ -98,6 +88,7 @@ Summary(pl.UTF-8):	Bashowe uzupełnianie parametrów dla polecenia dnf
 Group:		Applications/Shells
 Requires:	%{name} = %{version}-%{release}
 Requires:	bash-completion
+BuildArch:	noarch
 
 %description -n bash-completion-dnf
 Bash completion for dnf command.
@@ -112,6 +103,7 @@ Group:		Base
 Requires:	%{name} = %{version}-%{release}
 Recommends:	sqlite3
 Conflicts:	yum < 3.4.3-505
+BuildArch:	noarch
 
 %description -n yum
 Yum compatibility layer for DNF.
