@@ -17,7 +17,12 @@ Group:		Base
 License:	GPL v2 (parts on GPL v2+ or GPL)
 Source0:	https://github.com/rpm-software-management/dnf/archive/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	21880d44905d6aa67ab6bee1e86380b3
+Source1:	pld.repo
+Source2:	pld-archive.repo
+Source3:	pld-debuginfo.repo
+Source4:	pld-multilib.repo
 Patch0:		install.patch
+Patch1:		repos.d.patch
 URL:		https://github.com/rpm-software-management/dnf
 BuildRequires:	bash-completion-devel
 BuildRequires:	cmake >= 2.4
@@ -117,6 +122,7 @@ Warstwa zgodności z YUM-em dla DNF-a.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 install -d build
@@ -132,7 +138,7 @@ cd build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/{vars,aliases.d,plugins,modules.d,modules.defaults.d},yum} \
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/{yum,%{name}/{vars,aliases.d,plugins,modules.d,modules.defaults.d,repos.d}} \
 	-d $RPM_BUILD_ROOT{%{_localstatedir}/log/,%{_var}/cache/dnf} \
 	-d $RPM_BUILD_ROOT%{py3_sitescriptdir}/dnf-plugins/__pycache__
 
@@ -150,8 +156,53 @@ touch $RPM_BUILD_ROOT%{_localstatedir}/log/%{name}.log
 ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/%{name}.conf,yum.conf}
 ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/plugins,yum/pluginconf.d}
 ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/protected.d,yum/protected.d}
+ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/repos.d,yum/repos.d}
 ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/vars,yum/vars}
 ln -s dnf $RPM_BUILD_ROOT%{_bindir}/yum
+
+%ifarch i686 ppc sparc alpha athlon aarch64 %{arm}
+	%define		ftp_arch	%{_target_cpu}
+%endif
+%ifarch pentium2 pentium3 pentium4
+	%define		ftp_arch	i686
+%endif
+%ifarch %{x8664}
+	%define		ftp_arch	x86_64
+	%define		ftp_alt_arch	i686
+	%define		ftp_alt2_arch	x32
+%endif
+%ifarch x32
+	%define		ftp_arch	x32
+	%define		ftp_alt_arch	x86_64
+	%define		ftp_alt2_arch	i686
+%endif
+
+%define	pld_repo %{SOURCE1}
+%define	pld_archive_repo %{SOURCE2}
+%define	pld_debuginfo_repo %{SOURCE3}
+
+%ifarch %{x8664} x32
+	%define	pld_multilib_repo %{SOURCE4}
+	%define	pld_multilib2_repo %{SOURCE4}
+%endif
+
+%{__sed} -e 's|%%ARCH%%|%{ftp_arch}|g' < %{pld_repo} > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/repos.d/pld.repo
+
+%if 0%{?pld_multilib_repo:1}
+	%{__sed} 's|%%ARCH%%|%{ftp_alt_arch}|g' < %{pld_multilib_repo} > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/repos.d/pld-%{ftp_alt_arch}.repo
+%endif
+
+%if 0%{?pld_multilib2_repo:1}
+	%{__sed} 's|%%ARCH%%|%{ftp_alt2_arch}|g' < %{pld_multilib_repo} > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/repos.d/pld-%{ftp_alt2_arch}.repo
+%endif
+
+%if 0%{?pld_debuginfo_repo:1}
+%{__sed} -e 's|%%ARCH%%|%{ftp_arch}|g' < %{pld_debuginfo_repo} > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/repos.d/pld-debuginfo.repo
+%endif
+
+%if 0%{?pld_archive_repo:1}
+%{__sed} -e 's|%%ARCH%%|%{ftp_arch}|g' < %{pld_archive_repo} > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/repos.d/pld-archive.repo
+%endif
 
 %py3_comp $RPM_BUILD_ROOT%{py3_sitescriptdir}/dnf
 %py3_ocomp $RPM_BUILD_ROOT%{py3_sitescriptdir}/dnf
@@ -186,8 +237,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/%{name}
 %dir %{_sysconfdir}/%{name}/plugins
 %dir %{_sysconfdir}/%{name}/protected.d
+%dir %{_sysconfdir}/%{name}/repos.d
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/dnf.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/protected.d/dnf.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/repos.d/*.repo
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/libreport/events.d/collect_dnf.conf
 %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/%{name}
 %{_mandir}/man5/dnf.conf.5*
@@ -230,6 +283,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/yum
 %{_sysconfdir}/yum/pluginconf.d
 %{_sysconfdir}/yum/protected.d
+%{_sysconfdir}/yum/repos.d
 %{_sysconfdir}/yum/vars
 %{_mandir}/man1/yum-aliases.1*
 %{_mandir}/man5/yum.conf.5.*

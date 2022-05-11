@@ -1,0 +1,21 @@
+# PLD Linux <https://www.pld-linux.org/>
+
+[th-debuginfo]
+name=PLD Linux (Th) Debuginfo
+baseurl=https://ftp.th.pld-linux.org/dists/th/PLD/$arch/debuginfo/
+enabled=0
+
+[th-ready-debuginfo]
+name=PLD Linux (Th) Debuginfo (ready)
+baseurl=https://ftp.th.pld-linux.org/dists/th/ready/$arch/debuginfo/
+enabled=0
+
+[th-test-debuginfo]
+name=PLD Linux (Th) Debuginfo (test)
+baseurl=https://ftp.th.pld-linux.org/dists/th/test/$arch/debuginfo/
+enabled=0
+
+[th-obsolete-debuginfo]
+name=PLD Linux (Th) Debuginfo (obsolete)
+baseurl=https://ftp.th.pld-linux.org/dists/th/obsolete/$arch/debuginfo/
+enabled=0

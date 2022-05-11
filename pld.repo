@@ -1,0 +1,41 @@
+# PLD Linux <https://www.pld-linux.org/>
+
+[th-arch]
+name=PLD Linux (Th) - Architecture specific
+baseurl=https://ftp.th.pld-linux.org/dists/th/PLD/%ARCH%/RPMS/
+enabled=1
+
+[th-noarch]
+name=PLD Linux (Th) - Architecture independent
+baseurl=https://ftp.th.pld-linux.org/dists/th/PLD/noarch/RPMS/
+enabled=1
+
+[th-ready-arch]
+name=PLD Linux (Th) (ready) - Architecture specific
+baseurl=https://ftp.th.pld-linux.org/dists/th/ready/%ARCH%/RPMS/
+enabled=0
+
+[th-ready-noarch]
+name=PLD Linux (Th) (ready) - Architecture independent
+baseurl=https://ftp.th.pld-linux.org/dists/th/ready/noarch/RPMS/
+enabled=0
+
+[th-test-arch]
+name=PLD Linux (Th) (test) - Architecture specific
+baseurl=https://ftp.th.pld-linux.org/dists/th/test/%ARCH%/RPMS/
+enabled=0
+
+[th-test-noarch]
+name=PLD Linux (Th) (test) - Architecture independent
+baseurl=https://ftp.th.pld-linux.org/dists/th/test/noarch/RPMS/
+enabled=0
+
+[th-obsolete-arch]
+name=PLD Linux (Th) (obsolete) - Architecture specific
+baseurl=https://ftp.th.pld-linux.org/dists/th/obsolete/%ARCH%/RPMS/
+enabled=0
+
+[th-obsolete-noarch]
+name=PLD Linux (Th) (obsolete) - Architecture independent
+baseurl=https://ftp.th.pld-linux.org/dists/th/obsolete/noarch/RPMS/
+enabled=0
