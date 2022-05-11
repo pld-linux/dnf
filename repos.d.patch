@@ -8,7 +8,9 @@
  clean_requirements_on_remove=True
 --- dnf-4.6.1/etc/dnf/dnf.conf~	2021-03-02 21:05:07.000000000 +0700
 +++ dnf-4.6.1/etc/dnf/dnf.conf	2022-05-11 22:11:47.577573922 +0700
-@@ -1,4 +1,5 @@
+@@ -1,6 +1,7 @@
+ # see `man dnf.conf` for defaults and possible options
+ 
  [main]
 +reposdir=/etc/dnf/repos.d
  gpgcheck=1
