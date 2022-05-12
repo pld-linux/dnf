@@ -27,13 +27,13 @@ enabled=0
 [th-test-arch]
 name=PLD Linux (Th) (test) - Architecture specific
 baseurl=https://ftp.th.pld-linux.org/dists/th/test/%ARCH%/RPMS/
-gpgkey=https://ftp.th.pld-linux.org/dists/th/PLD-3.0-Th-GPG-key.asc
+gpgcheck=0
 enabled=0
 
 [th-test-noarch]
 name=PLD Linux (Th) (test) - Architecture independent
 baseurl=https://ftp.th.pld-linux.org/dists/th/test/noarch/RPMS/
-gpgkey=https://ftp.th.pld-linux.org/dists/th/PLD-3.0-Th-GPG-key.asc
+gpgcheck=0
 enabled=0
 
 [th-obsolete-arch]
