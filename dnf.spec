@@ -2,7 +2,7 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 #
-%define		hawkey_ver		0.59.0
+%define		hawkey_ver		0.67.0
 %define		libcomps_ver		0.1.8
 %define		libmodulemd_ver		2.9.3
 %define		rpm_ver			4.14.0
@@ -13,7 +13,7 @@ Summary:	Package manager
 Summary(pl.UTF-8):	Zarządca pakietów
 Name:		dnf
 Version:	4.12.0
-Release:	0.2
+Release:	0.3
 Group:		Base
 # GPL v2+ with GPL v2 and GPL parts; for a breakdown of the licensing, see PACKAGE-LICENSING
 License:	GPL v2 (parts on GPL v2+ or GPL)

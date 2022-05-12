@@ -3,19 +3,23 @@
 [th-%ARCH%]
 name=PLD Linux (Th) %ARCH%
 baseurl=https://ftp.th.pld-linux.org/dists/th/PLD/%ARCH%/RPMS/
+gpgkey=https://ftp.th.pld-linux.org/dists/th/PLD-3.0-Th-GPG-key.asc
 enabled=0
 
 [th-ready-%ARCH%]
 name=PLD Linux (Th) (ready) %ARCH%
 baseurl=https://ftp.th.pld-linux.org/dists/th/ready/%ARCH%/RPMS/
+gpgkey=https://ftp.th.pld-linux.org/dists/th/PLD-3.0-Th-GPG-key.asc
 enabled=0
 
 [th-test-%ARCH%]
 name=PLD Linux (Th) (test) %ARCH%
 baseurl=https://ftp.th.pld-linux.org/dists/th/test/%ARCH%/RPMS/
+gpgkey=https://ftp.th.pld-linux.org/dists/th/PLD-3.0-Th-GPG-key.asc
 enabled=0
 
 [th-obsolete-%ARCH%]
 name=PLD Linux (Th) (obsolete) %ARCH%
 baseurl=https://ftp.th.pld-linux.org/dists/th/obsolete/%ARCH%/RPMS/
+gpgkey=https://ftp.th.pld-linux.org/dists/th/PLD-3.0-Th-GPG-key.asc
 enabled=0

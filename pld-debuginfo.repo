@@ -3,19 +3,23 @@
 [th-debuginfo]
 name=PLD Linux (Th) Debuginfo
 baseurl=https://ftp.th.pld-linux.org/dists/th/PLD/$arch/debuginfo/
+gpgkey=https://ftp.th.pld-linux.org/dists/th/PLD-3.0-Th-GPG-key.asc
 enabled=0
 
 [th-ready-debuginfo]
 name=PLD Linux (Th) Debuginfo (ready)
 baseurl=https://ftp.th.pld-linux.org/dists/th/ready/$arch/debuginfo/
+gpgkey=https://ftp.th.pld-linux.org/dists/th/PLD-3.0-Th-GPG-key.asc
 enabled=0
 
 [th-test-debuginfo]
 name=PLD Linux (Th) Debuginfo (test)
 baseurl=https://ftp.th.pld-linux.org/dists/th/test/$arch/debuginfo/
+gpgkey=https://ftp.th.pld-linux.org/dists/th/PLD-3.0-Th-GPG-key.asc
 enabled=0
 
 [th-obsolete-debuginfo]
 name=PLD Linux (Th) Debuginfo (obsolete)
 baseurl=https://ftp.th.pld-linux.org/dists/th/obsolete/$arch/debuginfo/
+gpgkey=https://ftp.th.pld-linux.org/dists/th/PLD-3.0-Th-GPG-key.asc
 enabled=0

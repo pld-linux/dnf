@@ -3,9 +3,11 @@
 [th-archive-arch]
 name=PLD Linux (Th) Archive - Architecture specific
 baseurl=https://ftp.th.pld-linux.org/dists/th/PLD/$arch/RPMS/
+gpgkey=https://ftp.th.pld-linux.org/dists/th/PLD-3.0-Th-GPG-key.asc
 enabled=0
 
 [th-archive-noarch]
 name=PLD Linux (Th) Archive - Architecture independent
 baseurl=https://ftp.th.pld-linux.org/dists/th/PLD/noarch/RPMS/
+gpgkey=https://ftp.th.pld-linux.org/dists/th/PLD-3.0-Th-GPG-key.asc
 enabled=0
