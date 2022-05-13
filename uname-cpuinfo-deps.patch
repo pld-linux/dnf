@@ -1,0 +1,24 @@
+--- dnf-4.12.0/dnf/cli/commands/check.py~	2022-04-27 11:46:45.000000000 +0200
++++ dnf-4.12.0/dnf/cli/commands/check.py	2022-05-13 12:17:21.812109592 +0200
+@@ -80,6 +80,10 @@
+                 for require in set(pkg.regular_requires) | set(set(pkg.requires_pre) - set(pkg.prereq_ignoreinst)):
+                     if str(require).startswith('rpmlib'):
+                         continue
++                    if str(require).startswith('uname('):
++                        continue
++                    if str(require).startswith('cpuinfo('):
++                        continue
+                     if not len(q.filter(provides=[require])):
+                         if str(require).startswith('('):
+                             # rich deps can be only tested by solver
+--- dnf-4.12.0/dnf/cli/commands/repoquery.py~	2022-04-27 11:46:45.000000000 +0200
++++ dnf-4.12.0/dnf/cli/commands/repoquery.py	2022-05-13 12:18:24.088053591 +0200
+@@ -674,6 +674,8 @@
+             usedpkgs = set() if usedpkgs is None or level == -1 else usedpkgs
+             if pkg.name.startswith("rpmlib") or pkg.name.startswith("solvable"):
+                 return
++            if pkg.name.startswith("uname(") or pkg.name.startswith("cpuinfo("):
++                return
+             self.grow_tree(level, pkg, opts)
+             if pkg not in usedpkgs:
+                 usedpkgs.add(pkg)

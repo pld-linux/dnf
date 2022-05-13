@@ -13,7 +13,7 @@ Summary:	Package manager
 Summary(pl.UTF-8):	Zarządca pakietów
 Name:		dnf
 Version:	4.12.0
-Release:	1
+Release:	2
 Group:		Base
 # GPL v2+ with GPL v2 and GPL parts; for a breakdown of the licensing, see PACKAGE-LICENSING
 License:	GPL v2 (parts on GPL v2+ or GPL)
@@ -25,6 +25,7 @@ Source3:	pld-debuginfo.repo
 Source4:	pld-multilib.repo
 Patch0:		install.patch
 Patch1:		repos.d.patch
+Patch2:		uname-cpuinfo-deps.patch
 URL:		https://github.com/rpm-software-management/dnf
 BuildRequires:	bash-completion-devel
 BuildRequires:	cmake >= 2.4
@@ -115,6 +116,7 @@ Warstwa zgodności z YUM-em dla DNF-a.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 install -d build
