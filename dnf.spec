@@ -74,6 +74,7 @@ Requires(post):	systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
 Requires:	%{name} = %{version}-%{release}
+Requires:	python3-modules
 BuildArch:	noarch
 
 %description automatic
