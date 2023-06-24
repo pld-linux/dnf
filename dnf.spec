@@ -39,6 +39,7 @@ BuildRequires:	python3-libdnf >= %{hawkey_ver}
 BuildRequires:	python3-modules
 BuildRequires:	python3-nose
 BuildRequires:	python3-rpm >= %{rpm_ver}
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.647
 BuildRequires:	rpm-pythonprov
 BuildRequires:	sed >= 4.0
