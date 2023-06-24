@@ -50,6 +50,7 @@ Requires:	python3-gpg
 Requires:	python3-hawkey >= %{hawkey_ver}
 Requires:	python3-libcomps >= %{libcomps_ver}
 Requires:	python3-libdnf >= %{hawkey_ver}
+Requires:	python3-modules
 Requires:	python3-rpm
 Requires:	systemd-units >= 0.38
 Recommends:	deltarpm
