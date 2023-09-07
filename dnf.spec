@@ -12,13 +12,13 @@
 Summary:	Package manager
 Summary(pl.UTF-8):	Zarządca pakietów
 Name:		dnf
-Version:	4.12.0
-Release:	2
+Version:	4.17.0
+Release:	1
 Group:		Base
 # GPL v2+ with GPL v2 and GPL parts; for a breakdown of the licensing, see PACKAGE-LICENSING
 License:	GPL v2 (parts on GPL v2+ or GPL)
 Source0:	https://github.com/rpm-software-management/dnf/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	0e0242e443f87290efd16226b056f18c
+# Source0-md5:	3ba77f1f0288155d9004e3778f9b7ac8
 Source1:	pld.repo
 Source2:	pld-archive.repo
 Source3:	pld-debuginfo.repo

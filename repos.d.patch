@@ -13,6 +13,6 @@
  
  [main]
 +reposdir=/etc/dnf/repos.d
- gpgcheck=1
+ gpgcheck=True
  installonly_limit=3
  clean_requirements_on_remove=True
