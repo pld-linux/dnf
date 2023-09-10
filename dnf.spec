@@ -13,7 +13,7 @@ Summary:	Package manager
 Summary(pl.UTF-8):	Zarządca pakietów
 Name:		dnf
 Version:	4.17.0
-Release:	1
+Release:	2
 Group:		Base
 # GPL v2+ with GPL v2 and GPL parts; for a breakdown of the licensing, see PACKAGE-LICENSING
 License:	GPL v2 (parts on GPL v2+ or GPL)
@@ -148,6 +148,8 @@ touch $RPM_BUILD_ROOT%{_localstatedir}/log/%{name}.log
 %{__mv} $RPM_BUILD_ROOT%{_bindir}/dnf-automatic-3 $RPM_BUILD_ROOT%{_bindir}/dnf-automatic
 
 %{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/{%{name}-strict.conf,aliases.d/zypper.conf}
+
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/zh_Hans
 
 # YUM compat layer
 ln -sr $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/%{name}.conf,yum.conf}
