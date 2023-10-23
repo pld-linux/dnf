@@ -12,13 +12,13 @@
 Summary:	Package manager
 Summary(pl.UTF-8):	Zarządca pakietów
 Name:		dnf
-Version:	4.17.0
-Release:	2
+Version:	4.18.0
+Release:	1
 Group:		Base
 # GPL v2+ with GPL v2 and GPL parts; for a breakdown of the licensing, see PACKAGE-LICENSING
 License:	GPL v2 (parts on GPL v2+ or GPL)
 Source0:	https://github.com/rpm-software-management/dnf/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	3ba77f1f0288155d9004e3778f9b7ac8
+# Source0-md5:	c6fd294e361123ec50a41bb00c43844f
 Source1:	pld.repo
 Source2:	pld-archive.repo
 Source3:	pld-debuginfo.repo
@@ -238,7 +238,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/%{name}/protected.d
 %dir %{_sysconfdir}/%{name}/repos.d
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/dnf.conf
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/protected.d/dnf.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/repos.d/*.repo
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/libreport/events.d/collect_dnf.conf
 %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/%{name}
@@ -251,6 +250,7 @@ rm -rf $RPM_BUILD_ROOT
 %{systemdunitdir}/dnf-makecache.timer
 %{systemdtmpfilesdir}/dnf.conf
 %{py3_sitescriptdir}/dnf
+%{py3_sitescriptdir}/dnf-%{version}.dist-info
 %{py3_sitescriptdir}/dnf-plugins
 %exclude %{py3_sitescriptdir}/dnf/automatic
 %dir %{_var}/cache/dnf
