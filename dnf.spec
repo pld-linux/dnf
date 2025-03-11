@@ -13,7 +13,7 @@ Summary:	Package manager
 Summary(pl.UTF-8):	Zarządca pakietów
 Name:		dnf
 Version:	4.19.0
-Release:	
+Release:	2
 Group:		Base
 # GPL v2+ with GPL v2 and GPL parts; for a breakdown of the licensing, see PACKAGE-LICENSING
 License:	GPL v2 (parts on GPL v2+ or GPL)
@@ -40,8 +40,8 @@ BuildRequires:	python3-modules
 BuildRequires:	python3-nose
 BuildRequires:	python3-rpm >= %{rpm_ver}
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 1.647
 BuildRequires:	rpm-pythonprov
+BuildRequires:	rpmbuild(macros) >= 1.647
 BuildRequires:	sed >= 4.0
 BuildRequires:	sphinx-pdg
 BuildRequires:	systemd-devel
@@ -117,9 +117,9 @@ Warstwa zgodności z YUM-em dla DNF-a.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%patch -P 0 -p1
+%patch -P 1 -p1
+%patch -P 2 -p1
 
 %build
 install -d build
