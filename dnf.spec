@@ -37,7 +37,6 @@ BuildRequires:	python3-hawkey >= %{hawkey_ver}
 BuildRequires:	python3-libcomps >= %{libcomps_ver}
 BuildRequires:	python3-libdnf >= %{hawkey_ver}
 BuildRequires:	python3-modules
-BuildRequires:	python3-nose
 BuildRequires:	python3-rpm >= %{rpm_ver}
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpm-pythonprov
