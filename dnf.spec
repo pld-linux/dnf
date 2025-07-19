@@ -32,7 +32,7 @@ BuildRequires:	cmake >= 2.4
 BuildRequires:	gettext-tools
 BuildRequires:	libmodulemd >= %{libmodulemd_ver}
 BuildRequires:	python3
-BuildRequires:	python3-gpg
+BuildRequires:	python3-gpgmepy
 BuildRequires:	python3-hawkey >= %{hawkey_ver}
 BuildRequires:	python3-libcomps >= %{libcomps_ver}
 BuildRequires:	python3-libdnf >= %{hawkey_ver}
@@ -46,7 +46,7 @@ BuildRequires:	sphinx-pdg
 BuildRequires:	systemd-devel
 Requires(post,preun,postun):	systemd-units >= 38
 Requires:	libmodulemd >= %{libmodulemd_ver}
-Requires:	python3-gpg
+Requires:	python3-gpgmepy
 Requires:	python3-hawkey >= %{hawkey_ver}
 Requires:	python3-libcomps >= %{libcomps_ver}
 Requires:	python3-libdnf >= %{hawkey_ver}
