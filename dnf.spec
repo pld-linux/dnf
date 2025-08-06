@@ -13,7 +13,7 @@ Summary:	Package manager
 Summary(pl.UTF-8):	Zarządca pakietów
 Name:		dnf
 Version:	4.19.0
-Release:	4
+Release:	5
 Group:		Base
 # GPL v2+ with GPL v2 and GPL parts; for a breakdown of the licensing, see PACKAGE-LICENSING
 License:	GPL v2 (parts on GPL v2+ or GPL)
